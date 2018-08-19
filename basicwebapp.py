@@ -16,7 +16,7 @@ def bye():
 @app.route('/flash')
 def flash():
 	lf = LEDFlasher()
-	lf.flash()
+	lf.flashAlways()
 	return "The LED is flashing now."	
 	
 if __name__ == '__main__':
