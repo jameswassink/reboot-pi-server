@@ -12,6 +12,13 @@ def hello():
 def bye():
 	return "Goodbye World"
 	
+@app.route('/flash')
+def flash():
+	import ledFlasher
+	lf = LEDFlasher()
+	lf.flash()
+	return "The LED is flashing now."	
+	
 if __name__ == '__main__':
 	app.run(debug=True, host='0.0.0.0')
 
