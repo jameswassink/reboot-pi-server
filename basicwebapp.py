@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from ledFlasher import LEDFlasher
 app = Flask(__name__)
 @app.route('/')
 def index():
@@ -14,7 +15,6 @@ def bye():
 	
 @app.route('/flash')
 def flash():
-	import ledFlasher
 	lf = LEDFlasher()
 	lf.flash()
 	return "The LED is flashing now."	
