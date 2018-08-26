@@ -1,14 +1,16 @@
-from flask import Flask, render_template, request
-from ledFlasher import LEDFlasher
-
 import socketio
 import eventlet
 import eventlet.wsgi
+
+from flask import Flask, render_template
+
 sio = socketio.Server()
+
+from ledFlasher import LEDFlasher
 
 app = Flask(__name__)
 
-lf = LEDFlasher
+lf = LEDFlasher()
 
 @app.route('/')
 def socket():
