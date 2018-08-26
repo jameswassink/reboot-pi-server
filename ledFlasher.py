@@ -15,3 +15,8 @@ class LEDFlasher:
 		while(1):
 			self.flashOnce()
 	
+	def turnOn(self):
+		self.led.on()
+	
+	def turnOff(self):
+		self.led.off()

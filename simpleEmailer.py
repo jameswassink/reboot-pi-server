@@ -21,6 +21,6 @@ if __name__ == "__main__":
 	import sys
 	if len(sys.argv) == 3:
 		se = SimpleEmailer(sys.argv[1],sys.argv[2])
-		se.send("Hello World, this is an email!", "Hello World", "fromtest@example.com.au", "totest.example.com.au")
+		se.send("Hello World, this is an email!", "Hello World", "pi@reboot.com.au", "james.wassink@gmail.com")
 	else:
 		print("Wrong number of arguments - usage is \"simpleEmailer.py <smtp_user> <smtp_pass>\"")
