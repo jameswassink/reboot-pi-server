@@ -32,6 +32,5 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
 process.on('SIGINT', function () { //on ctrl+c
   LED.writeSync(0); // Turn LED off
   LED.unexport(); // Unexport LED GPIO to free resources
-  pushButton.unexport(); // Unexport Button GPIO to free resources
   process.exit(); //exit completely
 });
