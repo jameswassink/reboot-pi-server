@@ -2,6 +2,9 @@ var http = require('http').createServer(handler); //require http server, and cre
 var fs = require('fs'); //require filesystem module
 var io = require('socket.io')(http) //require socket.io module and pass the http object (server)
 
+var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
+var LED = new Gpio(23, 'out'); //use GPIO pin 4 as output
+
 http.listen(8080); //listen to port 8080
 
 function handler (req, res) { //create server
@@ -20,8 +23,15 @@ io.sockets.on('connection', function (socket) {// WebSocket Connection
   var lightvalue = 0; //static variable for current status
   socket.on('light', function(data) { //get light switch status from client
     lightvalue = data;
-    if (lightvalue) {
-      console.log(lightvalue); //turn LED on or off, for now we will just show it in console.log
+    if (lightvalue != LED.readSync()) {
+      LED.writeSync(lightvalue); //turn LED on or off
     }
   });
+});
+
+process.on('SIGINT', function () { //on ctrl+c
+  LED.writeSync(0); // Turn LED off
+  LED.unexport(); // Unexport LED GPIO to free resources
+  pushButton.unexport(); // Unexport Button GPIO to free resources
+  process.exit(); //exit completely
 });
