@@ -8,6 +8,8 @@ sio = socketio.Server()
 
 from ledFlasher import LEDFlasher
 
+from carcontrol import CarControl
+
 app = Flask(__name__)
 
 lf = LEDFlasher()
@@ -23,6 +25,16 @@ def lightChange(sid, data):
 	else:
 		lf.turnOff()
 	
+	
+@app.route('/carcontrol')
+def carcontrol():
+	return render_template('carcontrol.html')	
+	
+@sio.on('carcommand')
+def carcommand(sid, data):
+	print data
+	cc = CarControl()
+	cc.write(data)
 
 if __name__ == '__main__':
 	# wrap Flask application with engineio's middleware

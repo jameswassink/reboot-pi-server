@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+<button id="fwd" value="w">Forward</button>
+<button id="rev" value="s">Reverse</button>
+<button id="left" value="a">Left</button>
+<button id="right" value="d">Right</button>
+<span id="currentVal"></span>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script> <!-- include socket.io client side script -->
+<script>
+var socket = io(); //load socket.io-client and connect to the host that serves the page
+window.addEventListener("load", function(){ //when page loads
+  var buttons = [
+	  document.getElementById("fwd"),
+	  document.getElementById("rev"),
+	  document.getElementById("left"),
+	  document.getElementById("right"),	  
+  ];
+  
+    buttons.forEach(function(btn){
+        console.log(btn);
+        console.log(btn.value);
+        btn.addEventListener("click", () => {
+            socket.emit("carcommand", btn.value);
+		});  
+    });
+});
+socket.on("carcommand", (data) => {
+    document.getElementById("currentVal").text = data;
+});
+    
+</script>
+</html>
+</body>
+</html>

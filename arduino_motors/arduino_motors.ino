@@ -30,7 +30,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   if (Serial.available() > 0){
     input = Serial.read();
-    Serial.print(input, DEC);
+    Serial.print(input);
     switch(input){
       case 119:
         goForwards();
@@ -43,6 +43,8 @@ void loop() {
         break;
       case 100:
         rotateRight();
+        break;
+      case 10: //Enter
         break;
       default: 
         stopMoving();
