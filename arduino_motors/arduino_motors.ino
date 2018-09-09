@@ -13,44 +13,35 @@ void setup() {
   Serial.begin(9600);
   
   
-  pinMode(13,OUTPUT);
+  //pinMode(13,OUTPUT);
   pinMode(M11, OUTPUT);
   pinMode(M12, OUTPUT);
   pinMode(M21, OUTPUT);
-  pinMode(M22, OUTPUT);
-
-  int mp1[] = {M11, M12};
-  int mp2[] = {M21, M22};
+  pinMode(M22, OUTPUT); 
   
-  motorPins[0] = mp1;
-  motorPins[1] = mp2;
-  
-  delay(1000);
+ // delay(1000);
   while (!Serial){;}
 
-//for (int i = 0; i < 5; i++){
   Serial.println("hello");
-//}
-
-  establishContact();
 }
+
 
 void loop() {
   // put your main code here, to run repeatedly:
   if (Serial.available() > 0){
     input = Serial.read();
-    Serial.print(input);
+    Serial.print(input, DEC);
     switch(input){
-      case 'w':
+      case 119:
         goForwards();
         break;
-      case 's':
+      case 115:
         goBackwards();
         break;
-      case 'a':
+      case 97:
         rotateLeft();
         break;
-      case 'd':
+      case 100:
         rotateRight();
         break;
       default: 
@@ -61,6 +52,7 @@ void loop() {
 }
 
 void goForwards(){
+  Serial.println("moving forwards");
   motorForward(0);
   motorForward(1);
 }
@@ -71,8 +63,8 @@ void goBackwards(){
 }
 
 void rotateLeft(){
-  motorReverse(0);
   motorForward(1);
+  motorReverse(0);
 }
 
 void rotateRight(){
@@ -85,23 +77,43 @@ void stopMoving(){
   motorStop(1);
 }
 
+
 void motorForward(int motor){
-  digitalWrite(motorPins[motor][0], HIGH);
-  digitalWrite(motorPins[motor][1], LOW);
+  int pin = getPinForMotor(motor, 0);
+  digitalWrite(pin, HIGH);
+  Serial.print(pin);
+  Serial.print(", ");
+  pin = getPinForMotor(motor, 1);
+  digitalWrite(pin, LOW);
+  Serial.println(pin);
 }
 
 void motorReverse(int motor){
-  digitalWrite(motorPins[motor][0], LOW);
-  digitalWrite(motorPins[motor][1], HIGH);
+  digitalWrite(getPinForMotor(motor, 0), LOW);
+  digitalWrite(getPinForMotor(motor, 1), HIGH);
 }
 
 void motorStop(int motor){
-  digitalWrite(motorPins[motor][0], LOW);
-  digitalWrite(motorPins[motor][1], LOW);
+  digitalWrite(getPinForMotor(motor, 0), LOW);
+  digitalWrite(getPinForMotor(motor, 1), LOW);
 }
-void establishContact() {
-  while (Serial.available() <= 0) {
-    Serial.print('A');   // send a capital A
-    delay(300);
+
+
+int getPinForMotor(int motor, int pin){
+  if (motor == 0){
+    if (pin == 0){
+      return M11;
+    }
+    else {
+      return M12;
+    }
+  }
+  else {
+    if (pin == 0 ){
+      return M21;
+    }
+    else {
+      return M22;
+    }
   }
 }
