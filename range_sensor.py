@@ -25,9 +25,9 @@ def getRange():
 	while GPIO.input(ECHO)==1:
 	  pulse_end = time.time()
 
-	pulse_duration = pulse_end - pulse_start
+	pulse_duration = pulse_end - pulse_start # ie how long it took to get there and back
 
-	distance = pulse_duration * 17150
+	distance = pulse_duration * 17150 # based on speed of sound
 
 	distance = round(distance, 2)
 
