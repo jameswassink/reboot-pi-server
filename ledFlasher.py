@@ -1,14 +1,17 @@
-from gpiozero import LED
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
 from time import sleep
 
 class LEDFlasher:
 	def __init__(self):
+		self.led = 23
+		GPIO.setup(ledpin, GPIO.OUT)
 		self.led = LED(23)
 		
 	def flashOnce(self):
-		self.led.on()
+		GPIO.output(self.led, 1)
 		sleep(1)
-		self.led.off()
+		GPIO.output(self.led, 0)
 		sleep(1)
 		
 	def flashAlways(self):
@@ -16,7 +19,11 @@ class LEDFlasher:
 			self.flashOnce()
 	
 	def turnOn(self):
-		self.led.on()
+		GPIO.output(self.led, 1)
 	
 	def turnOff(self):
-		self.led.off()
+		GPIO.output(self.led, 0)
+
+if __name__== '__main__':
+	lf = LEDFlasher()
+	lf.flashAlways()
